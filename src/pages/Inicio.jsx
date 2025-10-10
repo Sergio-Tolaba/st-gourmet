@@ -7,12 +7,16 @@ const Inicio = ()=>{
     const agregarProducto = ()=>{
         setProductos([...productos,"ñoquis"]) //actualiza estado si recargar la SPA
     }
+    const eliminarProducto = (nombre)=>{
+    setProductos(productos.filter((item)=> item !==nombre))
+    }
     return(
         <div>
             <h2>Comidas deliciosas</h2>
             <button onClick={agregarProducto}>Agregar producto</button>
             {/* estado productos pasa como props */}
-            <ProductList items={productos} />
+            {/* funcion eliminarProducto pasa como props| */}
+            <ProductList items={productos} onDelete={eliminarProducto} />
         </div>
 
     )
