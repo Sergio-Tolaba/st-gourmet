@@ -74,6 +74,7 @@ const Productos = () => {
 
       {detalleProducto ?(
         <section style={{ marginTop: '20px' }}>
+          <hr/> <hr/>
           <h3>Detalle del producto</h3>
           <p>Nombre: {detalleProducto.title}</p>
           <p>Precio: {detalleProducto.price}</p>

@@ -1,9 +1,5 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
 import './App.css';
 import Inicio from './pages/Inicio'
-import InicioList from './pages/InicioList';
 
 function App() {
 //   const comidas = [
@@ -23,7 +19,7 @@ function App() {
           </li>
         ))}
       </ul> */}
-      <InicioList/>
+      
       <Inicio/>
 
     </>
