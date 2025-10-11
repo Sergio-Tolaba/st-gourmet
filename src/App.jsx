@@ -1,26 +1,27 @@
 import './App.css';
+
+import { Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import Inicio from './pages/Inicio'
+import Productos from './pages/Productos';
+import DetalleProducto from './pages/DetalleProducto';
 
 function App() {
-//   const comidas = [
-// { id: 1, name: "Pizza", price: 12.5 },
-// { id: 2, name: "Hamburguesa", price: 10.0 },
-// { id: 3, name: "Empanadas", price: 8.75 },
-// { id: 4, name: "Milanesa", price: 11.25 },
-// ];
+
   return (
     <>
-      <h1>St Gourmet</h1>
-      {/* <ul>
-        {comidas.map((c)=>(
-          <li key={c.id}>
-            <h2>{c.name}</h2>
-            <p>${c.price} </p>
-          </li>
-        ))}
-      </ul> */}
+      <Header />
+      <Navbar />
+      <main>
+        <Routes>
+          <Route path="/" element={<Inicio />} />
+          <Route path="/productos" element={<Productos />} />
+        </Routes>
+      </main>
       
-      <Inicio/>
+      
 
     </>
   );

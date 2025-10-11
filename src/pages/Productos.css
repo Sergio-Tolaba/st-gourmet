@@ -1,0 +1,45 @@
+.productos-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.form-producto {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.form-producto input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+}
+
+.form-producto button {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.lista-productos {
+  list-style: none;
+  padding: 0;
+}
+
+.producto-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f7f7f7;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+}
+
+.producto-titulo {
+  font-weight: 500;
+}
+
+.acciones button {
+  margin-left: 10px;
+}

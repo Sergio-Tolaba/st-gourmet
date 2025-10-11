@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import './Productos.css';
 
 const Productos = () => {
   const [productos, setProductos] = useState([]);
   const [nuevoProducto, setNuevoProducto] = useState('');
   const [detalleProducto, setDetalleProducto] = useState(null);
+
 
   useEffect(() => {
     fetch('https://fakestoreapi.com/products')
@@ -50,6 +53,8 @@ const Productos = () => {
 
       <form onSubmit={agregarProducto}>
         <input
+          id="nombreProducto"
+          name="nombreProducto"
           type="text"
           placeholder="Escribí un producto"
           value={nuevoProducto}
