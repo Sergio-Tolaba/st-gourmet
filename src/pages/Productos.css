@@ -43,3 +43,11 @@
 .acciones button {
   margin-left: 10px;
 }
+.img-receta {
+  width: 200px;
+  height: 200px;
+  object-fit: cover; /* mantiene la proporción sin deformar */
+  border-radius: 8px; /* opcional: bordes redondeados */
+  display: block; /* para que respete márgenes si los agregás */
+  margin: 0 auto; /* centra la imagen */
+}

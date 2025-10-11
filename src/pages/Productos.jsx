@@ -9,16 +9,20 @@ const Productos = () => {
 
 
   useEffect(() => {
-    fetch('https://fakestoreapi.com/products')
+    fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=')
       .then((respuesta) => respuesta.json())
       .then((data) => {
-        const nombres = data.map((item) => ({
-          id: item.id,
-          title: item.title,
-          price: item.price,
-          description: item.description,
-        }));
-        setProductos(nombres);
+        if (data.meals) {
+          const recetasFormateadas = data.meals.map((item) => ({
+            id: item.idMeal,
+            nombre: item.strMeal,
+            imagen: item.strMealThumb,
+            instrucciones: item.strInstructions,
+          }));
+          setProductos(recetasFormateadas);
+        } else {
+          setProductos([]);
+        }
       })
       .catch((error) => {
         console.log('Error al obtener productos:', error);
@@ -28,12 +32,12 @@ const Productos = () => {
   const agregarProducto = (e) => {
     e.preventDefault();
     if (nuevoProducto.trim() !== '') {
-      // Crear un objeto similar a los de la API
+      
       const productoNuevo = {
         id: productos.length + 1,
-        title: nuevoProducto,
-        price: 'N/A',
-        description: 'Producto agregado manualmente',
+        nombre: nuevoProducto,
+        imagen: '', // sin imagen
+        instrucciones: 'Receta agregada manualmente',
       };
       setProductos([...productos, productoNuevo]);
       setNuevoProducto('');
@@ -48,7 +52,7 @@ const Productos = () => {
 
   return (
     <div className="productos-container">
-      <h2>Productos desde la API</h2>
+      <h2>Recetas desde la API</h2>
 
       <form onSubmit={agregarProducto}>
         <input
@@ -62,32 +66,46 @@ const Productos = () => {
         <button type="submit">Agregar</button>
       </form>
 
-      <ul>
+     <ul>
         {productos.map((producto) => (
           <li key={producto.id}>
-            <div class="acciones">
-              <span>{producto.title}  </span>
-            <button onClick={() => setDetalleProducto(producto)}>
-              Ver detalle
-            </button>
-            <button onClick={() => eliminarProducto(producto.id)}>
-              Eliminar
-            </button>
+            <div className="acciones">
+              {producto.imagen && (
+                <img
+                  src={producto.imagen}
+                  alt={producto.nombre}
+                  className="img-receta"
+                />
+              )}
+              <span>{producto.nombre}</span>
+              <button onClick={() => setDetalleProducto(producto)}>
+                Ver detalle
+              </button>
+              <button onClick={() => eliminarProducto(producto.id)}>
+                Eliminar
+              </button>
             </div>
           </li>
         ))}
       </ul>
 
-      {detalleProducto ?(
+      {detalleProducto ? (
         <section>
-          <hr/> 
-          <h3>Detalle del producto</h3>
-          <p>Nombre: {detalleProducto.title}</p>
-          <p>Precio: {detalleProducto.price}</p>
-          <p>Descripción: {detalleProducto.description}</p>
+          <hr />
+          <h3>Detalle de la receta</h3>
+          <p>Nombre: {detalleProducto.nombre}</p>
+          {detalleProducto.imagen && (
+            <img
+              src={detalleProducto.imagen}
+              alt={detalleProducto.nombre}
+              className="img-receta"
+            />
+          )}
+          <p>Instrucciones: {detalleProducto.instrucciones}</p>
         </section>
-      ):null}
+      ) : null}
     </div>
-)};
+  );
+};
 
 export default Productos;
