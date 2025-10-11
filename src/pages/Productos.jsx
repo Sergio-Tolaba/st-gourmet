@@ -30,7 +30,7 @@ const Productos = () => {
     if (nuevoProducto.trim() !== '') {
       // Crear un objeto similar a los de la API
       const productoNuevo = {
-        id: Date.now(), // ID único
+        id: productos.length + 1,
         title: nuevoProducto,
         price: 'N/A',
         description: 'Producto agregado manualmente',
@@ -42,13 +42,12 @@ const Productos = () => {
 
   const eliminarProducto = (id) => {
     setProductos(productos.filter((item) => item.id !== id));
-    if (detalleProducto?.id === id) {
-      setDetalleProducto(null);
+
     }
-  };
+  
 
   return (
-    <div>
+    <div className="productos-container">
       <h2>Productos desde la API</h2>
 
       <form onSubmit={agregarProducto}>
@@ -56,7 +55,7 @@ const Productos = () => {
           id="nombreProducto"
           name="nombreProducto"
           type="text"
-          placeholder="Escribí un producto"
+          placeholder="Escribir un producto"
           value={nuevoProducto}
           onChange={(e) => setNuevoProducto(e.target.value)}
         />
@@ -66,20 +65,22 @@ const Productos = () => {
       <ul>
         {productos.map((producto) => (
           <li key={producto.id}>
-            {producto.title}
+            <div class="acciones">
+              <span>{producto.title}  </span>
             <button onClick={() => setDetalleProducto(producto)}>
               Ver detalle
             </button>
             <button onClick={() => eliminarProducto(producto.id)}>
               Eliminar
             </button>
+            </div>
           </li>
         ))}
       </ul>
 
       {detalleProducto ?(
-        <section style={{ marginTop: '20px' }}>
-          <hr/> <hr/>
+        <section>
+          <hr/> 
           <h3>Detalle del producto</h3>
           <p>Nombre: {detalleProducto.title}</p>
           <p>Precio: {detalleProducto.price}</p>
@@ -87,7 +88,6 @@ const Productos = () => {
         </section>
       ):null}
     </div>
-  );
-};
+)};
 
 export default Productos;
