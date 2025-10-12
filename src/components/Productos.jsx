@@ -38,7 +38,7 @@ const Productos = ({ onAgregar }) => {
             <p className="precio">${producto.precio}</p>
 
             <div className="botones">
-              {/* Link apunta a la ruta dinámica que declaramos en App.jsx */}
+              
               <Link to={`/productos/${producto.id}`}>
                 <button className="btn-detalle">Ver detalle</button>
               </Link>

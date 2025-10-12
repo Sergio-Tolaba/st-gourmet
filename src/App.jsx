@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import Inicio from './pages/Inicio';
 import DetalleProducto from './pages/DetalleProducto';
 
+
 function App() {
   return (
     <>
