@@ -1,53 +1,88 @@
 .productos-container {
-  max-width: 800px;
-  margin: 0 auto;
   padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.form-producto {
+
+.grid-productos {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+}
+
+
+.producto-card {
   display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.form-producto input {
-  flex: 1;
-  padding: 8px;
-  border: 1px solid #ccc;
-}
-
-.form-producto button {
-  padding: 8px 12px;
-  cursor: pointer;
-}
-
-.lista-productos {
-  list-style: none;
-  padding: 0;
-}
-
-.producto-item {
-  display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  background: #f7f7f7;
+  text-align: center;
+  background: #f9f9f9;
   padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 6px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
 }
 
-.producto-titulo {
-  font-weight: 500;
+.producto-card:hover {
+  transform: translateY(-5px);
 }
 
-.acciones button {
-  margin-left: 10px;
-}
-.img-receta {
+
+.producto-card img {
   width: 200px;
   height: 200px;
-  object-fit: cover; /* mantiene la proporción sin deformar */
-  border-radius: 8px; /* opcional: bordes redondeados */
-  display: block; /* para que respete márgenes si los agregás */
-  margin: 0 auto; /* centra la imagen */
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* ✍️ Nombre */
+.producto-card h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 10px 0 5px 0;
+  color: #222;
+  min-height: 40px; /* mantiene altura pareja */
+}
+
+/* 💰 Precio */
+.precio {
+  font-size: 18px;
+  font-weight: bold;
+  color: #2e7d32;
+  margin-bottom: 8px;
+}
+
+/* 🔘 Botones */
+.botones {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: auto;
+}
+
+.botones button {
+  padding: 5px 8px;
+  font-size: 12px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  transition: background 0.2s;
+}
+
+.botones button:first-child {
+  background-color: #1976d2;
+}
+
+.botones button:first-child:hover {
+  background-color: #1565c0;
+}
+
+.botones button:last-child {
+  background-color: #e53935;
+}
+
+.botones button:last-child:hover {
+  background-color: #c62828;
 }

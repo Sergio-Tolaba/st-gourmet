@@ -7,6 +7,7 @@ import Footer from './components/Footer';
 import Inicio from './pages/Inicio'
 import Productos from './pages/Productos';
 import DetalleProducto from './pages/DetalleProducto';
+import Carrito from './pages/Carrito';
 
 function App() {
 
@@ -18,8 +19,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Inicio />} />
           <Route path="/productos" element={<Productos />} />
-          <Route path="/productos/:id" element={<DetalleProducto />} />
+          
         </Routes>
+      <Carrito/>  
       </main>
       <Footer />
       

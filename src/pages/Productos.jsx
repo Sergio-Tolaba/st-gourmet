@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import './Productos.css';
 
 const Productos = () => {
   const [productos, setProductos] = useState([]);
   const [nuevoProducto, setNuevoProducto] = useState('');
   const [detalleProducto, setDetalleProducto] = useState(null);
-
 
   useEffect(() => {
     fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=')
@@ -17,6 +15,7 @@ const Productos = () => {
             id: item.idMeal,
             nombre: item.strMeal,
             imagen: item.strMealThumb,
+            precio: (Math.random() * (1000 - 200) + 200).toFixed(0), // Precio aleatorio entre 200 y 1000
             instrucciones: item.strInstructions,
           }));
           setProductos(recetasFormateadas);
@@ -29,81 +28,37 @@ const Productos = () => {
       });
   }, []);
 
-  const agregarProducto = (e) => {
-    e.preventDefault();
-    if (nuevoProducto.trim() !== '') {
-      
-      const productoNuevo = {
-        id: productos.length + 1,
-        nombre: nuevoProducto,
-        imagen: '', // sin imagen
-        instrucciones: 'Receta agregada manualmente',
-      };
-      setProductos([...productos, productoNuevo]);
-      setNuevoProducto('');
-    }
-  };
-
   const eliminarProducto = (id) => {
     setProductos(productos.filter((item) => item.id !== id));
-
-    }
-  
+  };
 
   return (
     <div className="productos-container">
-      <h2>Recetas desde la API</h2>
+      <h2>Los platos más deliciosos a sólo un clic</h2>
 
-      <form onSubmit={agregarProducto}>
-        <input
-          id="nombreProducto"
-          name="nombreProducto"
-          type="text"
-          placeholder="Escribir un producto"
-          value={nuevoProducto}
-          onChange={(e) => setNuevoProducto(e.target.value)}
-        />
-        <button type="submit">Agregar</button>
-      </form>
-
-     <ul>
+      <div className="grid-productos">
         {productos.map((producto) => (
-          <li key={producto.id}>
-            <div className="acciones">
-              {producto.imagen && (
-                <img
-                  src={producto.imagen}
-                  alt={producto.nombre}
-                  className="img-receta"
-                />
-              )}
-              <span>{producto.nombre}</span>
-              <button onClick={() => setDetalleProducto(producto)}>
-                Ver detalle
-              </button>
-              <button onClick={() => eliminarProducto(producto.id)}>
-                Eliminar
-              </button>
+          <div key={producto.id} className="producto-card">
+            <img src={producto.imagen} alt={producto.nombre} />
+            <h3>{producto.nombre}</h3>
+            <p className="precio">${producto.precio}</p>
+            <div className="botones">
+              <button onClick={() => setDetalleProducto(producto)}>Ver detalle</button>
+              <button onClick={() => eliminarProducto(producto.id)}>Eliminar</button>
             </div>
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
 
       {detalleProducto ? (
-        <section>
+        <section className="detalle-producto">
           <hr />
-          <h3>Detalle de la receta</h3>
-          <p>Nombre: {detalleProducto.nombre}</p>
-          {detalleProducto.imagen && (
-            <img
-              src={detalleProducto.imagen}
-              alt={detalleProducto.nombre}
-              className="img-receta"
-            />
-          )}
-          <p>Instrucciones: {detalleProducto.instrucciones}</p>
+          <h3>Detalle de la receta exclusiva St Gourmet de</h3>
+          <p><strong>Nombre:</strong> {detalleProducto.nombre}</p>
+          <p><strong>Precio:</strong> ${detalleProducto.precio}</p>
+          <p>{detalleProducto.instrucciones}</p>
         </section>
-      ) : null}
+      ):[null]}
     </div>
   );
 };
