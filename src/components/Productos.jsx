@@ -4,18 +4,24 @@ import './Productos.css';
 
 const Productos = ({ onAgregar }) => {
   const [productos, setProductos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
+  const cargar = () => {
+    setLoading(true);
+    setError(null);
     fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=')
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error('Error de red');
+        return res.json();
+      })
       .then((data) => {
         if (data.meals) {
           const formateados = data.meals.slice(0, 25).map((item) => ({
             id: item.idMeal,
             nombre: item.strMeal,
             imagen: item.strMealThumb,
-            precio: (Math.random() * (30 - 10) + 7).toFixed(0),
-            instrucciones: item.strInstructions,
+            precio: Math.floor(Math.random() * 12) + 5, // ejemplo de precio si no viene
           }));
           setProductos(formateados);
         } else {
@@ -23,10 +29,23 @@ const Productos = ({ onAgregar }) => {
         }
       })
       .catch((err) => {
-        console.error('Error cargando recetas:', err);
-        setProductos([]);
-      });
+        console.error(err);
+        setError(err.message || 'Error al cargar productos');
+      })
+      .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    cargar();
   }, []);
+
+  if (loading) return <div className="loader">Cargando productos...</div>;
+  if (error)
+    return (
+      <div className="error">
+        Error: {error} <button onClick={cargar}>Reintentar</button>
+      </div>
+    );
 
   return (
     <div className="productos-container">
@@ -38,12 +57,10 @@ const Productos = ({ onAgregar }) => {
             <p className="precio">${producto.precio}</p>
 
             <div className="botones">
-              
               <Link to={`/productos/${producto.id}`}>
                 <button className="btn-detalle">Ver detalle</button>
               </Link>
 
-              
               <button
                 className="btn-agregar"
                 onClick={() => {

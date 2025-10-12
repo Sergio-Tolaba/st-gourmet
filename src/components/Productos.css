@@ -41,12 +41,21 @@
   border-radius: 5px;
   cursor: pointer;
 }
-
+.btn-detalle:hover {
+  background: #fff;
+  color: darkblue;
+  border: 2px solid black;
+}
 .btn-agregar {
-  background-color: #4caf50;
+  background-color: #000;
   color: white;
   padding: 5px 8px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+.btn-agregar:hover {
+  background: #fff;
+  color: darkgreen;
+  border: 2px solid black;
 }
