@@ -1,17 +1,19 @@
 .detalle-container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-  background: #fafafa;
-  border-radius: 6px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-.detalle-container h2 {
-  margin-bottom: 15px;
-}
-
-.cargando {
+  max-width: 800px;
+  margin: 20px auto;
   text-align: center;
-  padding: 20px;
+}
+
+.detalle-container img {
+  width: 400px;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.detalle-container p {
+  font-size: 16px;
+  line-height: 1.5;
+  text-align: left;
 }

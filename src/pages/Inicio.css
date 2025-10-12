@@ -1,1 +1,18 @@
-    
+        .inicio-page {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.inicio-titulo {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.separador {
+  margin: 30px 0;
+  border: none;
+  height: 2px;
+  background-color: #ccc;
+}

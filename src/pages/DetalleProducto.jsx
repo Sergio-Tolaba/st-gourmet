@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import './DetalleProducto.css';
 
@@ -7,27 +7,28 @@ const DetalleProducto = () => {
   const [producto, setProducto] = useState(null);
 
   useEffect(() => {
-    fetch(`https://fakestoreapi.com/products/${id}`)
+    fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`)
       .then((res) => res.json())
-      .then((data) => setProducto(data))
-      .catch((error) => console.log('Error al obtener detalle:', error));
+      .then((data) => {
+        if (data.meals && data.meals.length > 0) {
+          const p = data.meals[0];
+          setProducto({
+            id: p.idMeal,
+            nombre: p.strMeal,
+            imagen: p.strMealThumb,
+            instrucciones: p.strInstructions
+          });
+        }
+      });
   }, [id]);
 
-  if (!producto) return <p className="cargando">Cargando detalle...</p>;
+  if (!producto) return <p>Cargando...</p>;
 
   return (
     <div className="detalle-container">
-      <h2>{producto.title}</h2>
-      <p>
-        <strong>Precio:</strong> ${producto.price}
-      </p>
-      <p>
-        <strong>Descripción:</strong> {producto.description}
-      </p>
-
-      <Link to="/">
-        <button>Volver</button>
-      </Link>
+      <h2>{producto.nombre}</h2>
+      <img src={producto.imagen} alt={producto.nombre} />
+      <p>{producto.instrucciones}</p>
     </div>
   );
 };
