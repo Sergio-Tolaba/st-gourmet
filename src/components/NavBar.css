@@ -1,17 +1,96 @@
-.navbar {
-  background-color: #eee;
-  padding: 10px;
+/* src/components/Navbar.css */
+
+.site-header {
+  width: 100%;
+  border-bottom: 1px solid #eee;
+  background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.nav-container {
+  max-width: 1100px;
+  margin: 0 auto;
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.6rem 1rem;
+}
+
+/* Left: brand */
+.nav-left .brand {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #1f2937; /* gris oscuro */
+  text-decoration: none;
+}
+
+/* Center nav (links) */
+.nav-center {
+  display: flex;
+  gap: 1.25rem;
   justify-content: center;
-  gap: 10px;
+  flex: 1;
 }
 
 .nav-link {
   text-decoration: none;
-  color: #333;
-  font-weight: 500;
+  padding: 0.45rem 0.6rem;
+  border-radius: 8px;
+  color: #374151;
+  font-weight: 600;
+  transition: background 160ms, color 160ms, transform 120ms;
 }
 
 .nav-link:hover {
+  background: rgba(59,130,246,0.08); /* suave azul */
+  color: #1e3a8a;
+  transform: translateY(-2px);
+}
+
+/* active state style if NavLink sets active class */
+.nav-link.active {
+  background: rgba(59,130,246,0.14);
+  color: #1e40af;
+  box-shadow: 0 2px 8px rgba(30,64,175,0.06);
+}
+
+/* Right: cart */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.cart-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   text-decoration: none;
+  padding: 0.35rem;
+  border-radius: 8px;
+}
+
+.cart-icon { font-size: 1.05rem; }
+
+.cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #ef4444;
+  color: white;
+  font-size: 1.7rem;
+  padding: 0.12rem 0.35rem;
+  border-radius: 999px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Responsive: en pantallas pequeñas */
+@media (max-width: 720px) {
+  .nav-center { display: none; } /* simple: ocultar links centrales en móvil */
+  .nav-container { justify-content: space-between; }
 }

@@ -83,7 +83,7 @@ const DetalleProducto = () => {
       <h3>Preparación</h3>
       <p className="instrucciones">{receta.instrucciones}</p>
 
-      <div style={{ marginTop: 16 }}>
+      <div className='volver'>
         <Link to="/"><button>← Volver</button></Link>
       </div>
     </div>
