@@ -1,8 +1,8 @@
 
 import { Link, NavLink } from 'react-router-dom';
-import './Navbar.css';
+import './NavBar.css';
 
-const Navbar = ({ cartCount = 0 }) => {
+const NavBar = ({ cartCount = 0 }) => {
   return (
     <header className="site-header">
       <div className="nav-container">
@@ -27,4 +27,4 @@ const Navbar = ({ cartCount = 0 }) => {
   );
 };
 
-export default Navbar
+export default NavBar

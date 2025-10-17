@@ -1,7 +1,7 @@
 import './App.css';
 import { Routes, Route } from "react-router-dom";
 import Header from './components/Header';
-import Navbar from './components/NavBar';
+import NavBar from './components/NavBar';
 import DetalleProducto from './pages/DetalleProducto';
 import Ofertas from './pages/Ofertas';
 import CarritoAviso from './pages/CarritoAviso';
@@ -11,7 +11,7 @@ function App() {
   return (
     <>
       <Header />
-      <Navbar />
+      <NavBar />
         <Routes>
           {/* Inicio ahora es la página principal */}
           <Route path="/" element={<Inicio />} />
