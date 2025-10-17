@@ -6,6 +6,8 @@ import DetalleProducto from './pages/DetalleProducto';
 import Ofertas from './pages/Ofertas';
 import CarritoAviso from './pages/CarritoAviso';
 import Inicio from './pages/Inicio'
+import Footer from './components/Footer';
+
 
 
 function App() {
