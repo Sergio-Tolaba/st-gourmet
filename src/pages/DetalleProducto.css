@@ -1,7 +1,8 @@
 .detalle-container {
-  max-width: 900px;
+  width: 100%;
   margin: 20px auto;
   padding: 16px;
+  box-sizing: border-box;
 }
 
 .detalle-top {
@@ -36,4 +37,14 @@
 }
 .volver {
   margin-top: 16;
+}
+
+@media (max-width: 720px) {
+  
+  .detalle-content {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px;
+    align-items: stretch;
+  }
 }
