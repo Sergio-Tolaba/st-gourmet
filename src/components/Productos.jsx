@@ -17,7 +17,7 @@ const Productos = ({ onAgregar }) => {
       })
       .then((data) => {
         if (data.meals) {
-          const formateados = data.meals.slice(0, 25).map((item) => ({
+          const formateados = data.meals.slice(0, 24).map((item) => ({
             id: item.idMeal,
             nombre: item.strMeal,
             imagen: item.strMealThumb,
