@@ -1,4 +1,18 @@
-        .inicio-page {
+*, *::before, *::after { 
+  box-sizing: border-box;
+}
+
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+}
+
+
+.inicio-page {
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
@@ -15,4 +29,9 @@
   border: none;
   height: 2px;
   background-color: #ccc;
+}
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
