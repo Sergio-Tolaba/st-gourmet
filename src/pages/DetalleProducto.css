@@ -11,11 +11,14 @@
 }
 
 .detalle-img {
-  width: 320px;
-  height: 320px;
+  width: 100%;
+  max-width: 600px;    /* o el máximo que quieras */
+  height: auto;
+  aspect-ratio: 1 / 1; /* o elimina si querés imagen rectangular */
   object-fit: cover;
   border-radius: 8px;
 }
+
 
 .detalle-meta p {
   margin: 4px 0;

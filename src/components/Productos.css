@@ -1,6 +1,6 @@
 .grid-productos {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 15px;
 }
 
@@ -14,11 +14,14 @@
 }
 
 .producto-card img {
-  width: 200px;
-  height: 200px;
-  object-fit: cover;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1; 
+  object-fit: cover;    
   border-radius: 8px;
+  display: block;
 }
+
 
 .precio {
   font-size: 18px;
