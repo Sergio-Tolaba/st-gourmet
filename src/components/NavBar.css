@@ -1,5 +1,3 @@
-/* src/components/Navbar.css */
-
 .site-header {
   width: 100%;
   border-bottom: 1px solid #eee;
@@ -23,7 +21,7 @@
 .nav-left .brand {
   font-weight: 700;
   font-size: 1.1rem;
-  color: #1f2937; /* gris oscuro */
+  color: #1f2937; 
   text-decoration: none;
 }
 
@@ -50,14 +48,12 @@
   transform: translateY(-2px);
 }
 
-/* active state style if NavLink sets active class */
 .nav-link.active {
   background: rgba(59,130,246,0.14);
   color: #1e40af;
   box-shadow: 0 2px 8px rgba(30,64,175,0.06);
 }
 
-/* Right: cart */
 .nav-right {
   display: flex;
   align-items: center;
@@ -89,8 +85,7 @@
   line-height: 1;
 }
 
-/* Responsive: en pantallas pequeñas */
 @media (max-width: 720px) {
-  .nav-center { display: none; } /* simple: ocultar links centrales en móvil */
+  .nav-center { display: none; } 
   .nav-container { justify-content: space-between; }
 }
