@@ -86,6 +86,30 @@
 }
 
 @media (max-width: 720px) {
-  .nav-center { display: none; } 
-  .nav-container { justify-content: space-between; }
+  .nav-container {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .nav-center {
+    flex-basis: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .nav-left,
+  .nav-right {
+    flex-basis: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .nav-link {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.5rem;
+  }
 }
