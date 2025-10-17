@@ -5,6 +5,7 @@ import NavBar from './components/NavBar';
 import DetalleProducto from './pages/DetalleProducto';
 import Ofertas from './pages/Ofertas';
 import CarritoAviso from './pages/CarritoAviso';
+import Inicio from './pages/Inicio'
 
 
 function App() {
