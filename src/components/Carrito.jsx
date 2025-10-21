@@ -1,6 +1,11 @@
+import { Link } from 'react-router-dom';
+//import './CarritoAviso.css'
+import { useContext } from 'react';
 import './Carrito.css';
-
-const Carrito = ({ carrito, onEliminar }) => {
+import {CarritoContext} from '../context/CarritoContext'
+const Carrito = () => {
+  //Uso del Contexto
+  const {carrito,eliminarProducto}=useContext(CarritoContext)
   return (
     <div className="carrito-container">
       <h2>🛒 Tu Carrito</h2>
@@ -16,7 +21,7 @@ const Carrito = ({ carrito, onEliminar }) => {
                 <h4>{item.nombre}</h4>
                 <p>${item.precio}</p>
               </div>
-              <button className="btn-eliminar" onClick={() => onEliminar(index)}>
+              <button className="btn-eliminar" onClick={() => eliminarProducto(index)}>
                 Eliminar
               </button>
             </li>
@@ -28,3 +33,17 @@ const Carrito = ({ carrito, onEliminar }) => {
 };
 
 export default Carrito;
+
+/* const CarritoAviso = ()=> {
+  return (
+    <main>
+      <h1>Carrito</h1>
+      <p>🛒 Página de Carrito: en preparación. Mientras tanto puedes seguir navegando.</p>
+      <p>
+        <Link to="/" className="btn-link">Volver al inicio</Link>
+      </p>
+    </main>
+  );
+}
+export default CarritoAviso
+ */

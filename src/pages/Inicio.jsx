@@ -1,20 +1,9 @@
-import React, { useState } from 'react';
 import Productos from '../components/Productos';
 import Carrito from '../components/Carrito';
 import './Inicio.css';
 
 const Inicio = () => {
-  // estado global del carrito aquí
-  const [carrito, setCarrito] = useState([]);
 
-  const agregarProducto = (producto) => {
-    // permite duplicados
-    setCarrito((prev) => [...prev, producto]);
-  };
-
-  const eliminarProducto = (index) => {
-    setCarrito((prev) => prev.filter((_, i) => i !== index));
-  };
 
   return (
     <div className="inicio-page">
@@ -26,15 +15,11 @@ const Inicio = () => {
 
       <section className="productos-section">
         {/* Aquí pasamos la función onAgregar para que Productos pueda usarla */}
-        <Productos onAgregar={agregarProducto} />
+        <Productos />
+        
       </section>
 
-      <hr />
-
-      <section className="carrito-section">
-        {/* Carrito se muestra solo aquí */}
-        <Carrito carrito={carrito} onEliminar={eliminarProducto} />
-      </section>
+    
     </div>
   );
 };

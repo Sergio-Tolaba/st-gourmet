@@ -1,11 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Productos.css';
-
-const Productos = ({ onAgregar }) => {
+import {CarritoContext} from '../context/CarritoContext'
+const Productos = () => {
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  //Uso del Contexto
+  const {agregarProducto}=useContext(CarritoContext)
 
   const cargar = () => {
     setLoading(true);
@@ -64,11 +66,11 @@ const Productos = ({ onAgregar }) => {
               <button
                 className="btn-agregar"
                 onClick={() => {
-                  if (typeof onAgregar === 'function') {
-                    onAgregar(producto);
+                  if (typeof agregarProducto === 'function') {
+                    agregarProducto(producto);
                   } else {
                     console.warn(
-                      'onAgregar no es una función (no fue pasada desde el padre)'
+                      'agregarProducto no es una función (no fue pasada desde el padre)'
                     );
                   }
                 }}
