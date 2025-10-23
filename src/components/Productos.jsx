@@ -23,7 +23,7 @@ const Productos = () => {
             id: item.idMeal,
             nombre: item.strMeal,
             imagen: item.strMealThumb,
-            precio: Math.floor(Math.random() * 12) + 5, // ejemplo de precio si no viene
+            precio: Math.floor(Math.random() * 12) + 5, 
           }));
           setProductos(formateados);
         } else {
