@@ -1,11 +1,13 @@
 .header {
-  background-color: #222;
-  color: white;
-  padding: 15px;
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  gap: 12px;
 }
 
-.header h1 {
-  margin: 0;
-  font-size: 1.8rem;
+.rutaAdmin {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }

@@ -25,12 +25,12 @@ const Login = () => {
 
   return (
     <>
-      <h3>Login-Iniciar Sesion</h3>
+      
       <h4>
         Para <span>Ver su Carrito</span> por favor loguearse{' '}
       </h4>
       <form onSubmit={verCarrito}>
-        <label for="">Usuario: </label>
+        <label htmlFor="">Usuario: </label>
         <input
           type="text"
           placeholder="Ingrese su usuario"
@@ -39,7 +39,7 @@ const Login = () => {
         />{' '}
         <br />
         <br />
-        <label for="">Contraseña: </label>
+        <label htmlFor="">Contraseña: </label>
         <input
           type="password"
           placeholder="Ingrese su clave"

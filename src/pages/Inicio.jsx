@@ -3,23 +3,18 @@ import Carrito from '../components/Carrito';
 import './Inicio.css';
 
 const Inicio = () => {
-
-
   return (
     <div className="inicio-page">
-      {/* Texto que no se estaba viendo porque Inicio no estaba montado */}
+    
       <header className="inicio-header">
-        <h2>Los platos deliciosos son St Gourmet</h2>
-        <p>Explora nuestras recetas de estrella Michelin y reserva tu pedido</p>
+        <h1>St Gourmet</h1>
+        <h2>Explora nuestras recetas de estrella Michelin y reserva tu pedido</h2>
       </header>
 
       <section className="productos-section">
-        {/* Aquí pasamos la función onAgregar para que Productos pueda usarla */}
-        <Productos />
         
+        <Productos />
       </section>
-
-    
     </div>
   );
 };
