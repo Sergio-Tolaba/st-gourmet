@@ -1,48 +1,56 @@
-import { useNavigate} from 'react-router-dom';
-import {useState} from 'react'
-
-const Login = ({setLogueado}) => {
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useAuthContext } from '../context/AuthContext';
+//Login x params
+//const Login = ({setLogueado}) => {
+const Login = () => {
   const [usuario, setUsuario] = useState('');
   const [clave, setClave] = useState('');
   const [error, setError] = useState('');
+
+  const { login } = useAuthContext();
   const navigate = useNavigate();
 
-  const verCarrito = (e)=>{
-    e.preventDefault()
+  const verCarrito = (e) => {
+    e.preventDefault();
 
-    if (usuario ==='admin' && clave ==='3456'){
-      setLogueado(true)
-      navigate ('/carrito')
-    }else{
-      setError('Usuario o contraseña incorrectos')
+    if (usuario == 'admin' && clave == '3456') {
+      //setLogueado(true)
+      login(usuario);
+      navigate('/carrito');
+    } else {
+      setError('Usuario o contraseña incorrectos');
     }
-  }
+  };
 
   return (
     <>
-      <h3>Login</h3>
-      <h4>Para <span>Ver su Carrito</span> por favor loguearse </h4>
-      <form onSubmit={verCarrito} >
+      <h3>Login-Iniciar Sesion</h3>
+      <h4>
+        Para <span>Ver su Carrito</span> por favor loguearse{' '}
+      </h4>
+      <form onSubmit={verCarrito}>
         <label for="">Usuario: </label>
-        <input 
-          type="text" 
+        <input
+          type="text"
           placeholder="Ingrese su usuario"
           value={usuario}
-          onChange={(e)=>setUsuario(e.target.value)}
-          /> <br />
+          onChange={(e) => setUsuario(e.target.value)}
+        />{' '}
+        <br />
         <br />
         <label for="">Contraseña: </label>
-        <input 
+        <input
           type="password"
           placeholder="Ingrese su clave"
           value={clave}
-          onChange={(e)=>setClave(e.target.value)}
-          />
+          onChange={(e) => setClave(e.target.value)}
+        />
         <br />
         <br />
         <button type="submit">Ver Carrito</button>
       </form>
-      {error ? <p>{error}</p>:null }
+      {error ? <p>{error}</p> : null}
     </>
   );
 };

@@ -1,4 +1,4 @@
-import './App.css';
+ import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import NavBar from './components/NavBar';
@@ -10,25 +10,32 @@ import Footer from './components/Footer';
 import { useState } from 'react';
 import RutaProtegida from './components/RutaProtegida';
 import Login from './pages/Login';
+import Admin from './components/Admin';
+import { AuthProvider } from './context/AuthContext'
 
 function App() {
-  const [logueado, setLogueado] = useState(false);
+  //const [logueado, setLogueado] = useState(false);
   return (
     <>
       <Header />
-      <NavBar />
+      {/* <NavBar /> */}
       <Routes>
         <Route path="/" element={<Inicio />} />
         <Route path="/ofertas" element={<Ofertas />} />
-        <Route path="/login" element={<Login setLogueado={setLogueado} />} />
+        {/* <Route path="/login" element={<Login setLogueado={setLogueado} />} /> */}
+        <Route path="/login" element={<Login />} />
         <Route
           path="/carrito"
           element={
-            <RutaProtegida logueado={logueado}>
+            // <RutaProtegida logueado={logueado}>
+            <RutaProtegida>
               <Carrito />
             </RutaProtegida>
           }
-        />
+          />
+        <Route path='/admin' element={<Admin/>} >
+        </Route>
+              
         
         
 
