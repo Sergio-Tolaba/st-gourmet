@@ -1,60 +1,46 @@
 import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Productos.css';
-import {CarritoContext} from '../context/CarritoContext'
+import { CarritoContext } from '../context/CarritoContext';
+
 const Productos = () => {
   const [productos, setProductos] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
-  //Uso del Contexto
-  const {agregarProducto}=useContext(CarritoContext)
+  const { agregarProducto } = useContext(CarritoContext);
 
-  const cargar = () => {
-    setLoading(true);
-    setError(null);
-    fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=')
-      .then((res) => {
-        if (!res.ok) throw new Error('Error de red');
-        return res.json();
-      })
-      .then((data) => {
-        if (data.meals) {
-          const formateados = data.meals.slice(0, 24).map((item) => ({
-            id: item.idMeal,
-            nombre: item.strMeal,
-            imagen: item.strMealThumb,
-            precio: Math.floor(Math.random() * 12) + 5, 
-          }));
-          setProductos(formateados);
-        } else {
-          setProductos([]);
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-        setError(err.message || 'Error al cargar productos');
-      })
-      .finally(() => setLoading(false));
-  };
+  const URL = 'https://68dd7da4d7b591b4b78c9f2f.mockapi.io/productos';
 
   useEffect(() => {
-    cargar();
-  }, []);
+    setCargando(true);
+    setError(null);
 
-  if (loading) return <div className="loader">Cargando productos...</div>;
+    fetch(URL)
+      .then((respuesta) => {
+        if (!respuesta.ok) throw new Error('Error al cargar productos');
+        return respuesta.json();
+      })
+      .then((datos) => setProductos(datos))
+      .catch(() => setError('Error al cargar productos'))
+      .finally(() => setCargando(false));
+  }, []); // 👈 se ejecuta una sola vez al montar
+
+  if (cargando) return <div>Cargando productos...</div>;
   if (error)
     return (
       <div className="error">
-        Error: {error} <button onClick={cargar}>Reintentar</button>
+        Error: {error}{' '}
+        <button onClick={() => window.location.reload()}>Reintentar</button>
       </div>
     );
 
+  
   return (
     <div className="productos-container">
       <div className="grid-productos">
         {productos.map((producto) => (
           <div key={producto.id} className="producto-card">
-            <img src={producto.imagen} alt={producto.nombre} />
+             <img src={producto.image} height={80} width={80}/>
             <h3 className="nombre">{producto.nombre}</h3>
             <p className="precio">${producto.precio}</p>
 
@@ -65,15 +51,7 @@ const Productos = () => {
 
               <button
                 className="btn-agregar"
-                onClick={() => {
-                  if (typeof agregarProducto === 'function') {
-                    agregarProducto(producto);
-                  } else {
-                    console.warn(
-                      'agregarProducto no es una función (no fue pasada desde el padre)'
-                    );
-                  }
-                }}
+                onClick={() => agregarProducto(producto)}
               >
                 🛒Agregar
               </button>
