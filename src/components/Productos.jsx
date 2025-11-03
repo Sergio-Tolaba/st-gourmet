@@ -40,7 +40,7 @@ const Productos = () => {
       <div className="grid-productos">
         {productos.map((producto) => (
           <div key={producto.id} className="producto-card">
-             <img src={producto.image} height={80} width={80}/>
+             <img src={producto.imagen} height={80} width={80}/>
             <h3 className="nombre">{producto.nombre}</h3>
             <p className="precio">${producto.precio}</p>
 
