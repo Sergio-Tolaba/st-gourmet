@@ -8,7 +8,7 @@ const Inicio = () => {
     
       <header className="inicio-header">
         <h1>St Gourmet</h1>
-        <h2>Explora nuestras recetas de estrella Michelin y reserva tu pedido</h2>
+        <h2>Explora nuestras recetas de sabores Argentinos y haz tu pedido</h2>
       </header>
 
       <section className="productos-section">

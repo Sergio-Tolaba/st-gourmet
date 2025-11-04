@@ -1,47 +1,29 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import './DetalleProducto.css'; // opcional: estilos para esta página
+import './DetalleProducto.css';
 
 const DetalleProducto = () => {
-  const { id } = useParams();               // lee :id de la URL
-  const [receta, setReceta] = useState(null);
+  const { id } = useParams();
+  const [producto, setProducto] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     if (!id) return;
 
-    setReceta(null);   // para mostrar "cargando" al cambiar id
+    setProducto(null);
     setError(null);
 
-    fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`)
+    fetch(`https://68dd7da4d7b591b4b78c9f2f.mockapi.io/productos/${id}`)
       .then((res) => {
-        if (!res.ok) throw new Error('Error en la respuesta de la API');
+        if (!res.ok) throw new Error('Error al obtener el producto');
         return res.json();
       })
       .then((data) => {
-        if (data.meals && data.meals.length > 0) {
-          const m = data.meals[0];
-          setReceta({
-            id: m.idMeal,
-            nombre: m.strMeal,
-            imagen: m.strMealThumb,
-            instrucciones: m.strInstructions,
-            categoria: m.strCategory,
-            area: m.strArea,
-            ingredientes: Array.from({ length: 20 }) // construimos lista limpia abajo
-              .map((_, i) => ({
-                ingrediente: m[`strIngredient${i + 1}`],
-                medida: m[`strMeasure${i + 1}`],
-              }))
-              .filter((it) => it.ingrediente && it.ingrediente.trim() !== ''),
-          });
-        } else {
-          setError('Receta no encontrada');
-        }
+        setProducto(data);
       })
       .catch((err) => {
         console.error(err);
-        setError('Error al obtener la receta');
+        setError('Error al obtener el producto');
       });
   }, [id]);
 
@@ -49,42 +31,42 @@ const DetalleProducto = () => {
     return (
       <div className="detalle-container">
         <p>{error}</p>
-        <Link to="/"><button>Volver al inicio</button></Link>
+        <Link to="/">
+          <button>Volver al inicio</button>
+        </Link>
       </div>
     );
   }
 
-  if (!receta) {
+  if (!producto) {
     return (
       <div className="detalle-container">
-        <p>Cargando receta...</p>
+        <p>Cargando producto...</p>
       </div>
     );
   }
 
   return (
     <div className="detalle-container">
-      <h2>{receta.nombre}</h2>
+      <h2>{producto.nombre}</h2>
       <div className="detalle-top">
-        <img src={receta.imagen} alt={receta.nombre} className="detalle-img" />
+        <img
+          src={producto.imagen}
+          alt={producto.nombre}
+          className="detalle-img"
+        />
         <div className="detalle-meta">
-          <p><strong>Categoría:</strong> {receta.categoria || '—'}</p>
-          <p><strong>Origen:</strong> {receta.area || '—'}</p>
+          <p>
+            <strong>Precio:</strong> {producto.precio || '—'}
+          </p>
+          <p><strong>Descripción:</strong> {producto.descripcion}</p>
         </div>
       </div>
 
-      <h3>Ingredientes</h3>
-      <ul className="ingredientes-list">
-        {receta.ingredientes.map((it, i) => (
-          <li key={i}>{it.ingrediente} — {it.medida}</li>
-        ))}
-      </ul>
-
-      <h3>Preparación</h3>
-      <p className="instrucciones">{receta.instrucciones}</p>
-
-      <div className='volver'>
-        <Link to="/"><button>← Volver</button></Link>
+      <div className="volver">
+        <Link to="/">
+          <button>← Volver</button>
+        </Link>
       </div>
     </div>
   );
