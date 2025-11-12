@@ -6,7 +6,7 @@ import {CarritoContext} from '../context/CarritoContext'
 const Carrito = () => {
   //Uso del Contexto
   const { usuario } = useAuthContext();
-  const {carrito,eliminarProducto,vaciarCarrito }=useContext(CarritoContext)
+  const {carrito,eliminarProducto,vaciarCarrito, cambiarCantidad }=useContext(CarritoContext)
   const total = carrito.reduce((acc, item) => acc + item.precio * (item.cantidad || 1), 0);
   return (
     <div className="carrito-container">
@@ -26,7 +26,11 @@ const Carrito = () => {
               <div className="info">
                 <h4>{item.nombre}</h4>
                 <p>Precio: ${item.precio}</p>
-                <p>Cantidad: {item.cantidad || 1}</p>
+                 <div>
+                  <button onClick={()=>cambiarCantidad(item.nombre, -1)}>-</button>
+                   <samp>Cantidad: {item.cantidad || 1}</samp>
+                   <button onClick={()=>cambiarCantidad(item.nombre, +1)}>+</button>
+                 </div>
 
                 
                 <p>Subtotal: ${item.precio * (item.cantidad || 1)}</p>

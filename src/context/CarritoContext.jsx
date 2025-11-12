@@ -27,13 +27,26 @@ export function CarritoProvider({ children }) {
   const vaciarCarrito = () => {
     setCarrito([]);
   };
+  const cambiarCantidad = (nombre, cambio) => {
+  setCarrito((prev) =>
+    prev.map((item) =>
+      item.nombre === nombre
+        ? {
+            ...item,
+            cantidad: Math.max(1, (item.cantidad || 1) + cambio),
+          }
+        : item
+    )
+  );
+};
 
   return (
     <CarritoContext.Provider value={{
       carrito,
       agregarProducto,
       eliminarProducto,
-      vaciarCarrito
+      vaciarCarrito,
+      cambiarCantidad
     }}>
       {children}
     </CarritoContext.Provider>
