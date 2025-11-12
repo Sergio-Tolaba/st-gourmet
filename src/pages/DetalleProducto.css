@@ -41,4 +41,21 @@
     width: 100%;
     text-align: center;
   }
+   .detalle-meta p {
+    white-space: normal;   /* permite saltos de línea */
+    word-wrap: break-word; /* corta palabras largas */
+    overflow-wrap: break-word;
+  }
+
+  /* Asegura que el contenedor crezca según el texto */
+  .detalle-meta {
+    flex: 1;
+    max-width: 100%;
+  }
+
+  /* Imagen adaptable */
+  .detalle-img {
+    width: 100%;
+    height: auto;
+  }
 }
