@@ -1,97 +1,110 @@
-import { useState } from 'react';
+import { useState, useContext } from "react";
+import { ProductoContext } from '../context/ProductoContext'; 
 
 const FormProducto = ({onAgregar}) => {
+  //const { agregarProducto, editarProducto } = useContext(ProductoContext); 
   const [errores, setErrores] = useState({});
   const [producto, setProducto] = useState({
     nombre: '',
-    imagen: '',
     precio: '',
-    descripcion: '',
+    imagen: '',
+    descripcion: ''
   });
-  const manejarChange = (e) => {
-    const {name, value} = e.target;
-    setProducto({ ...producto, [name]: value });
+  
+  const manejarChange = (evento) => {
+    const {name, value} =  evento.target;
+    setProducto({...producto, [name]: value});
   };
+
   const validarForm = () => {
     const nuevosErrores = {};
 
     if(!producto.nombre.trim())
-      nuevosErrores.nombre = 'El nombre es obligatorio'
-    if(!producto.imagen.trim() || producto.imagen.length <8)
-      nuevosErrores.imagen = 'Subir para la imagen una URL válida'
-    if(!producto.precio.trim() || producto.precio < 0) 
-      nuevosErrores.precio = 'El precio debe ser mayor a cero'
-    if(!producto.descripcion.trim() || producto.descripcion.length <10)
-      nuevosErrores.descripcion = 'La descripcion tiene que tener 10 o más caracteres'
-    setErrores(nuevosErrores)
-    return Object.keys(nuevosErrores).length === 0
-  };
-  const manejarSubmit = (e)=>{
-    e.preventDefault()
-    if(!validarForm())
-      return
-    const productoAEnviar ={
+      nuevosErrores.nombre = 'El nombre es obligatorio.'
+
+    if(!producto.precio || producto.precio < 0)
+      nuevosErrores.precio = 'El precio debe ser mayor a 0.'
+
+    if (!producto.imagen.trim() || producto.imagen.length < 6)  
+      nuevosErrores.imagen = 'Debes subir la URL de una imagen valida.'; 
+
+    if (!producto.descripcion.trim() || producto.descripcion.length < 10)  
+      nuevosErrores.descripcion = 'La descripción debe tener al menos 10 caracteres.';  
+ 
+    setErrores(nuevosErrores); 
+    return Object.keys(nuevosErrores).length === 0; 
+  }; 
+
+  const manejarSubmit = (evento) => {
+    evento.preventDefault();
+  
+    if (!validarForm())
+      return; 
+    
+    const productoAEnviar = {
       ...producto,
-      precio: parseFloat(producto.precio)
-    }
-  onAgregar(productoAEnviar)
-  setProducto({nombre:'', imagen:'',precio:'', descripcion:''})
-  setErrores({})
+      precio: parseFloat(producto.precio) 
+    };
+    
+    onAgregar(productoAEnviar);
+    // Limpiamos el formulario
+    setProducto({nombre: '', precio:'', imagen:'', descripcion:''});
+    setErrores({});
   }
-  return (
+ 
+  return(
     <>
       <form onSubmit={manejarSubmit}>
         <h2>Agregar Producto</h2>
         <div>
-          <label htmlFor=''>Nombre:</label>
-          <br />
+          <label>Nombre:</label>
+          <br/>
           <input
-            type="text"
-            name="nombre"
+            type='text'
+            name='nombre'
             value={producto.nombre}
-            onChange={manejarChange}
+            onChange={manejarChange}    
           />
-          {errores.nombre && <p style={{ color: 'red' }}>{errores.nombre} </p>}
+          {errores.nombre && <p style={{ color: 'red' }}>{errores.nombre}</p>} 
         </div>
         <div>
-          <label htmlFor=''>Precio:</label>
-          <br />
+          <label>Precio:</label>
+          <br/>
           <input
-            type="number"
-            name="precio"
+            type='number'
+            name='precio'
             value={producto.precio}
             onChange={manejarChange}
             min={0}
-            
+            step='any'
           />
-          {errores.precio && <p style={{ color: 'red' }}>{errores.precio} </p>}
+          {errores.precio && <p style={{ color: 'red' }}>{errores.precio}</p>} 
         </div>
         <div>
-          <label htmlFor=''>URL de Imagen:</label>
-          <br />
+          <label>URL de Imagen:</label>
+          <br/>
           <input
-            type="text"
-            name="imagen"
+            type='text'
+            name='imagen'
             value={producto.imagen}
-            onChange={manejarChange}
+            onChange={manejarChange}    
           />
-          {errores.imagen && <p style={{ color: 'red' }}>{errores.imagen} </p>}
+          {errores.imagen && <p style={{ color: 'red' }}>{errores.imagen}</p>} 
         </div>
         <div>
-          <label htmlFor=''>Descripcion:</label>
-          <br />
+          <label>Descripcion:</label>
+          <br/>
           <textarea
-            type="text"
-            name="descripcion"
+            name='descripcion'
             value={producto.descripcion}
             onChange={manejarChange}
           />
-          {errores.descripcion && <p style={{ color: 'red' }}>{errores.descripcion} </p>}
+          {errores.descripcion && <p style={{ color: 'red' }}>{errores.descripcion}</p>} 
         </div>
-        <button type="submit">Agregar Producto</button>
-      </form>
+        <button type='submit'>Agregar Productos</button>  
+      </form>   
     </>
   );
-};
+}
 
 export default FormProducto;
