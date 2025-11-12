@@ -1,3 +1,12 @@
+html, body {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* fallback seguro: evita scroll horizontal si algo se desborda */
+}
+*, *::before, *::after { 
+  box-sizing: inherit;
+ }
 .site-header {
   width: 100%;
   border-bottom: 1px solid #eee;
