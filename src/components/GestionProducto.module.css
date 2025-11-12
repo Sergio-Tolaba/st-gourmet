@@ -33,3 +33,7 @@
 .productoItem p {
   color: black;
 }
+.form-row { display: flex; gap: 12px; }
+@media (max-width:720px) {
+  .form-row { flex-direction: column; }
+}

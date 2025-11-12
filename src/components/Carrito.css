@@ -6,6 +6,8 @@
 }
 
 .carrito-lista {
+  box-sizing: border-box;
+  max-width: 100%;
   list-style: none;
   padding: 0;
 }
