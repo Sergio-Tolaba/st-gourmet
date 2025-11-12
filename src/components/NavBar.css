@@ -162,4 +162,24 @@ html, body {
     padding: 0.6rem 0;
     width: 100%;
   }
+  /* Evitar que botones del header se corten en móvil */
+.nav-right,
+.nav-left {
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.nav-right button,
+.nav-right a,
+.nav-left button,
+.nav-left a {
+  white-space: nowrap;
+  margin-left: 0.35rem;
+  margin-right: 0.35rem;
+}
+
+
+
 }
