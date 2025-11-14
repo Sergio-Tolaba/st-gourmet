@@ -1,61 +1,102 @@
+/* Reset útil */
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; margin: 0; padding: 0; }
+body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; line-height: 1.4; }
+
+/* Contenedor global que envuelve Routes (poner .app-container en App.jsx) */
 .app-container {
-  max-width: 100%;
-  padding: 0 16px; /* margen horizontal para que nada quede pegado a los bordes */
+  width: 100%;
+  max-width: 1280px;   /* ancho máximo en pantallas grandes */
+  margin: 0 auto;      /* centra el layout en desktop */
+  padding: 16px;       /* margen horizontal razonable en todas las pantallas */
 }
 
-* {
-  box-sizing: border-box;
-}
-
-body, html {
+/* Evitar overflow horizontal */
+html, body {
+  overscroll-behavior-x: none;
   overflow-x: hidden;
 }
 
-img {
+/* Imágenes siempre respetan ancho del contenedor */
+img { max-width: 100%; height: auto; display: block; }
+
+/* Cabecera (header) básica: evita que el header empuje el contenido */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+}
+
+/* Si tenés un nav con links: que envuelva en móvil */
+.nav-links {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* Zona principal de contenido (separar del root) */
+.main {
+  width: 100%;
+  margin-top: 12px;
+  text-align: left;    /* <- importante: no centre todo el contenido */
+}
+
+/* Si tenés un hero en inicio */
+.hero {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 0;
+}
+
+/* Cards o grid de productos */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+/* Formularios: siempre full width en móvil */
+form, .form-container {
+  width: 100%;
+}
+input, select, textarea, button {
+  width: 100%;
   max-width: 100%;
-  height: auto;
+  box-sizing: border-box;
 }
 
+/* ADMIN: contenedor de lista + formulario */
+.admin-container {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
 
+/* En pantallas chicas pasa a columna */
+@media (max-width: 768px) {
+  .app-container { padding: 12px; }
+  #root { padding: 0; }        /* removemos el padding grande de root en móvil */
+  .hero { flex-direction: column; align-items: stretch; }
+  .admin-container { flex-direction: column; gap: 12px; }
+  .header { padding: 8px 0; }
+  .main { padding-bottom: 48px; }
+}
+
+/* Evitar que títulos o textos se salgan */
+h1, h2, h3, p {
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* Si querés mantener #root con ancho centrado en desktop, pero sin afectar layout: */
 #root {
-  max-width: 1280px;
+  width: 100%;
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+  text-align: left;   /* <-- lo cambié para que no centre todo */
+  padding: 0;
 }

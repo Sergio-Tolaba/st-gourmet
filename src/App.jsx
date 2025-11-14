@@ -21,6 +21,7 @@ function App() {
     
       
     <div className="app-container">
+      <main className="main">
       <Routes>
         <Route path="/" element={<Inicio />} />
         <Route path="/ofertas" element={<Ofertas />} />
@@ -53,6 +54,7 @@ function App() {
           }
         />
       </Routes>
+      </main>
       </div>
 
       <Footer />
