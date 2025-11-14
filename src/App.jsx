@@ -14,11 +14,13 @@ import Admin from './components/Admin';
 import { AuthProvider } from './context/AuthContext'
 
 function App() {
-  //const [logueado, setLogueado] = useState(false);
+  
   return (
     <>
       <Header />
-      {/* <NavBar /> */}
+    
+      
+    <div className="app-container">
       <Routes>
         <Route path="/" element={<Inicio />} />
         <Route path="/ofertas" element={<Ofertas />} />
@@ -51,6 +53,7 @@ function App() {
           }
         />
       </Routes>
+      </div>
 
       <Footer />
     </>
