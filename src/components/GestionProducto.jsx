@@ -87,11 +87,12 @@ const GestionProductos = () => {
         {/* Lista de productos */}
         <div className={styles.panel}>
           <div className={styles.botonAgregarProducto}>
+            <p>Para editar haz clic en el producto</p>
             <CirclePlus />
-            <p>Agregar Producto</p>
+            <p>Nuevo Producto</p>
           </div>
           {productos.map((producto) => {
-            console.log(producto); // <-- Agregar aquí
+           
 
             return (
               <div

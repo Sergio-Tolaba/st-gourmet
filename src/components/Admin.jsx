@@ -13,20 +13,23 @@ function Admin() {
 
   // suponiendo que ProductList y ProductForm son componentes
   return (
-    <div className="admin-container">
-      {/* Si mobile: listar productos primero */}
-      {isMobile ? (
-        <>
-          <div className="product-list"><GestionProducto /></div>
-          <div className="product-form"><FormProducto /></div>
-        </>
-      ) : (
-        <>
-          <div className="product-list"><GestionProducto /></div>
-          <div className="product-form"><FormProducto /></div>
-        </>
-      )}
-    </div>
-  );
+  <div className="admin-container">
+    {isMobile ? (
+      <>
+        <div className="product-list">
+          <GestionProducto />
+        </div>
+      </>
+    ) : (
+      <>
+        <div className="product-list">
+          <GestionProducto />
+        </div>
+      </>
+    )}
+  </div>
+);
+
+  
 }
 export default Admin

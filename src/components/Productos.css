@@ -1,8 +1,9 @@
 .grid-productos {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 15px;
+  grid-template-columns: repeat(3, 1fr);   /* ✔ 3 columnas en desktop */
 }
+
 
 .producto-card {
   background: #fff;
@@ -61,4 +62,9 @@
   background: #fff;
   color: darkgreen;
   border: 2px solid black;
+}
+@media (max-width: 720px) {
+  .grid-productos {
+    grid-template-columns: 1fr;
+  }
 }
