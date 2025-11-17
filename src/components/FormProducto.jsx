@@ -1,110 +1,85 @@
-import { useState, useContext } from "react";
-import { ProductoContext } from '../context/ProductoContext'; 
+import { useState } from 'react';
+import styles from './GestionProducto.module.css';
 
-const FormProducto = ({onAgregar}) => {
-  //const { agregarProducto, editarProducto } = useContext(ProductoContext); 
-  const [errores, setErrores] = useState({});
-  const [producto, setProducto] = useState({
-    nombre: '',
-    precio: '',
-    imagen: '',
-    descripcion: ''
-  });
-  
-  const manejarChange = (evento) => {
-    const {name, value} =  evento.target;
-    setProducto({...producto, [name]: value});
+const FormProducto = ({ onAgregar }) => {
+  const [nombre, setNombre] = useState('');
+  const [precio, setPrecio] = useState('');
+  const [imagen, setImagen] = useState('');
+  const [descripcion, setDescripcion] = useState('');
+
+  const limpiar = () => {
+    setNombre('');
+    setPrecio('');
+    setImagen('');
+    setDescripcion('');
   };
 
-  const validarForm = () => {
-    const nuevosErrores = {};
-
-    if(!producto.nombre.trim())
-      nuevosErrores.nombre = 'El nombre es obligatorio.'
-
-    if(!producto.precio || producto.precio < 0)
-      nuevosErrores.precio = 'El precio debe ser mayor a 0.'
-
-    if (!producto.imagen.trim() || producto.imagen.length < 6)  
-      nuevosErrores.imagen = 'Debes subir la URL de una imagen valida.'; 
-
-    if (!producto.descripcion.trim() || producto.descripcion.length < 10)  
-      nuevosErrores.descripcion = 'La descripción debe tener al menos 10 caracteres.';  
- 
-    setErrores(nuevosErrores); 
-    return Object.keys(nuevosErrores).length === 0; 
-  }; 
-
-  const manejarSubmit = (evento) => {
-    evento.preventDefault();
-  
-    if (!validarForm())
-      return; 
-    
-    const productoAEnviar = {
-      ...producto,
-      precio: parseFloat(producto.precio) 
+  const submit = (e) => {
+    e.preventDefault();
+    // validación simple
+    if (!nombre.trim()) return alert('Completá el nombre del producto');
+    const producto = {
+      nombre: nombre.trim(),
+      precio: Number(precio) || 0,
+      imagen: imagen.trim() || 'https://via.placeholder.com/100?text=Sin+imagen',
+      descripcion: descripcion.trim(),
     };
-    
-    onAgregar(productoAEnviar);
-    // Limpiamos el formulario
-    setProducto({nombre: '', precio:'', imagen:'', descripcion:''});
-    setErrores({});
-  }
- 
-  return(
-    <>
-      <form onSubmit={manejarSubmit}>
-        <h2>Agregar Producto</h2>
-        <div>
-          <label>Nombre:</label>
-          <br/>
-          <input
-            type='text'
-            name='nombre'
-            value={producto.nombre}
-            onChange={manejarChange}    
-          />
-          {errores.nombre && <p style={{ color: 'red' }}>{errores.nombre}</p>} 
-        </div>
-        <div>
-          <label>Precio:</label>
-          <br/>
-          <input
-            type='number'
-            name='precio'
-            value={producto.precio}
-            onChange={manejarChange}
-            min={0}
-            step='any'
-          />
-          {errores.precio && <p style={{ color: 'red' }}>{errores.precio}</p>} 
-        </div>
-        <div>
-          <label>URL de Imagen:</label>
-          <br/>
-          <input
-            type='text'
-            name='imagen'
-            value={producto.imagen}
-            onChange={manejarChange}    
-          />
-          {errores.imagen && <p style={{ color: 'red' }}>{errores.imagen}</p>} 
-        </div>
-        <div>
-          <label>Descripcion:</label>
-          <br/>
-          <textarea
-            name='descripcion'
-            value={producto.descripcion}
-            onChange={manejarChange}
-          />
-          {errores.descripcion && <p style={{ color: 'red' }}>{errores.descripcion}</p>} 
-        </div>
-        <button type='submit'>Agregar Productos</button>  
-      </form>   
-    </>
+    onAgregar(producto);
+    limpiar();
+  };
+
+  return (
+    <form className={styles.formContainer} onSubmit={submit} aria-label="Formulario para agregar producto">
+      <div className={styles.fieldGroup}>
+        <label htmlFor="nombre">Nombre</label>
+        <input
+          id="nombre"
+          type="text"
+          value={nombre}
+          onChange={(e) => setNombre(e.target.value)}
+          placeholder="Ej: Alfajor casero - Chocolate 90g"
+        />
+      </div>
+
+      <div className={styles.fieldGroup}>
+        <label htmlFor="precio">Precio</label>
+        <input
+          id="precio"
+          type="number"
+          value={precio}
+          onChange={(e) => setPrecio(e.target.value)}
+          placeholder="Ej: 11500 (solo números)"
+        />
+      </div>
+
+      <div className={styles.fieldGroup}>
+        <label htmlFor="imagen">URL imagen</label>
+        <input
+          id="imagen"
+          type="text"
+          value={imagen}
+          onChange={(e) => setImagen(e.target.value)}
+          placeholder="https://... (opcional, dejar vacío para placeholder)"
+        />
+      </div>
+
+      <div className={styles.fieldGroup}>
+        <label htmlFor="descripcion">Descripción</label>
+        <textarea
+          id="descripcion"
+          rows="3"
+          value={descripcion}
+          onChange={(e) => setDescripcion(e.target.value)}
+          placeholder="Breve descripción: ingredientes, formato o detalles (opcional)"
+        />
+      </div>
+
+      <div className={styles.formActions}>
+        <button type="button" className={styles.btnSecondary} onClick={limpiar}>Limpiar</button>
+        <button type="submit" className={styles.btnPrimary}>Agregar producto</button>
+      </div>
+    </form>
   );
-}
+};
 
 export default FormProducto;

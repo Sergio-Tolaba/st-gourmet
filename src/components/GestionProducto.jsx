@@ -10,7 +10,6 @@ const GestionProductos = () => {
   const [cargando, setCargando] = useState(true);
   const API = 'https://68dd7da4d7b591b4b78c9f2f.mockapi.io/productos';
 
-  // Cargar productos al montar el componente
   useEffect(() => {
     cargarProductos();
   }, []);
@@ -29,71 +28,71 @@ const GestionProductos = () => {
     }
   };
 
-  // Función para seleccionar un producto
   const seleccionarProducto = (producto) => {
     setProductoSeleccionado(producto);
   };
 
-  if (cargando) return <div>Cargando productos...</div>;
+  // Formatea moneda local (ajustá locale/currency si lo necesitás)
+  const formatCurrency = (value) => {
+    const num = Number(value);
+    if (Number.isNaN(num)) return '-';
+    return new Intl.NumberFormat('es-AR', {
+      style: 'currency',
+      currency: 'ARS',
+      maximumFractionDigits: 0,
+    }).format(num);
+  };
 
-  // Funcion para agregar el producto a la API
   const agregarProducto = async (producto) => {
     try {
       const respuesta = await fetch(API, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(producto),
       });
-
       if (!respuesta.ok) throw new Error('Error al agregar el producto.');
-
       const datos = await respuesta.json();
-      console.log('Producto agregado: ', datos);
-      alert('Producto agregado correctamente');
-
-      //Agregar el nuevo producto a la lista
       setProductos([...productos, datos]);
+      alert('Producto agregado correctamente');
     } catch (error) {
       console.error(error.message);
       alert('Hubo un problema al agregar el producto.');
     }
   };
 
-  // Funcion para eliminar producto de la API
   const eliminarProducto = async (id) => {
     const confirmar = window.confirm('¿Estás seguro de eliminar?');
-
-    if (confirmar) {
-      try {
-        const respuesta = await fetch(`${API}/${id}`, {
-          method: 'DELETE',
-        });
-
-        if (!respuesta.ok) throw new Error('Error al eliminar');
-        // Filtra y crea un nuevo array sin el producto eliminado
-        setProductos(productos.filter((p) => p.id !== id));
-      } catch (error) {
-        console.error(error.message);
-        alert('Hubo un problema al eliminar el producto.');
-      }
+    if (!confirmar) return;
+    try {
+      const respuesta = await fetch(`${API}/${id}`, { method: 'DELETE' });
+      if (!respuesta.ok) throw new Error('Error al eliminar');
+      setProductos(productos.filter((p) => p.id !== id));
+    } catch (error) {
+      console.error(error.message);
+      alert('Hubo un problema al eliminar el producto.');
     }
   };
 
+  if (cargando) return <div className={styles.loading}>Cargando productos...</div>;
+
   return (
-    <div>
+    <div className={styles.wrapper}>
       <div className={styles.container}>
-        {/* Lista de productos */}
+        {/* Panel izquierdo: Lista de productos */}
         <div className={styles.panel}>
           <div className={styles.botonAgregarProducto}>
-            <p>Para editar haz clic en el producto</p>
-            <CirclePlus />
-            <p>Nuevo Producto</p>
+            <div className={styles.agregarInfo}>
+              <CirclePlus />
+              <div className={styles.agregarText}>
+                <p className={styles.agregarLine}>Para editar haz clic en el producto</p>
+                <p className={styles.agregarLineBold}>Nuevo Producto</p>
+              </div>
+            </div>
           </div>
-          {productos.map((producto) => {
-           
 
+          {productos.map((producto) => {
+            const nombre = producto.nombre || producto.name || 'Sin nombre';
+            const precioRaw = producto.precio ?? producto.price ?? '-';
             return (
               <div
                 key={producto.id}
@@ -103,35 +102,53 @@ const GestionProductos = () => {
                 <img
                   className={styles.imagen}
                   src={producto.imagen}
-                  alt={producto.nombre ?? producto.name ?? 'Producto'}
-                />
-                <h3>{producto.nombre || producto.name || 'Sin nombre'}</h3>
-                <p>Precio: ${producto.precio ?? producto.price ?? '-'}</p>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    eliminarProducto(producto.id);
+                  alt={nombre}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src =
+                      'https://via.placeholder.com/100?text=Sin+imagen';
                   }}
-                >
-                  Eliminar
-                </button>
+                />
+
+                {/* info: nombre + precio */}
+                <div className={styles.info}>
+                  <h3 className={styles.nombre} title={nombre}>
+                    {nombre}
+                  </h3>
+                  <p className={styles.precio}>
+                    {precioRaw === '-' ? '-' : formatCurrency(precioRaw)}
+                  </p>
+                </div>
+
+                {/* Botones */}
+                <div className={styles.controls}>
+                  <button
+                    className={styles.btnEliminar}
+                    aria-label={`Eliminar ${nombre}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      eliminarProducto(producto.id);
+                    }}
+                  >
+                    Eliminar
+                  </button>
+                </div>
               </div>
             );
           })}
         </div>
-        {/* Formulario para editar producto */}
+
+        {/* Panel derecho: Formulario + Editor */}
         <div className={styles.panel}>
           <FormProducto onAgregar={agregarProducto} />
           <EditarProducto
             productoSeleccionado={productoSeleccionado}
             onActualizar={(productoActualizado) => {
-              // Reemplaza el producto en la lista con el que venga del editor
               setProductos((prev) =>
                 prev.map((p) =>
                   p.id === productoActualizado.id ? productoActualizado : p
                 )
               );
-              // Opcional: deseleccionar
               setProductoSeleccionado(null);
             }}
           />

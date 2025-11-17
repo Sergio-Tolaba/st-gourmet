@@ -1,45 +1,292 @@
-.container {
- display: flex;
- gap: 20px;
-}
-.imagen {
-  height: 100px;
-  width: 100px;
+/* GestionProducto.module.css
+   Reemplazo completo: centra el contenido, margenes proporcionales y estilos para formularios y placeholders.
+*/
+
+:root{
+  --bg:#f5f7fb;
+  --panel-bg:#fff;
+  --muted:#6b7280;
+  --accent:#0b665f;
+  --danger:#e63946;
+  --card-shadow: 0 2px 8px rgba(16,24,40,0.06);
+  --radius:10px;
 }
 
-.panel {
-  flex: 1;
-}
-
-.botonAgregarProducto {
-  font-weight: 600;
+/* Contenedor general */
+.wrapper {
+  padding: 20px; /* más margen general para centrar mejor en pantallas grandes */
+  background: var(--bg);
+  min-height: 100vh;
+  box-sizing: border-box;
   display: flex;
-  justify-content: end;
+  justify-content: center; /* centra el contenido horizontalmente en la ventana */
+}
+
+/* Limitar ancho máximo para que no quede pegado a los bordes en desktop */
+.container {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1200px; /* ancho máximo centrado */
+  box-sizing: border-box;
+  padding: 8px;
+}
+
+/* Panel (lista / formularios) */
+.panel {
+  flex: 1 1 0;
+  background: var(--panel-bg);
+  padding: 16px;
+  border-radius: var(--radius);
+  box-shadow: var(--card-shadow);
+  box-sizing: border-box;
+  min-width: 0; /* importante para truncado en flex children */
+}
+
+/* Para que los paneles no queden pegados a los bordes en pantallas pequeñas */
+.container > .panel:first-child {
+  margin-left: 4px;
+}
+.container > .panel:last-child {
+  margin-right: 4px;
+}
+
+/* Botón / área de agregar producto (ahora centrado proporcionalmente) */
+.botonAgregarProducto {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+}
+@media (max-width: 720px){
+  .botonAgregarProducto { justify-content: center; }
+}
+
+.agregarInfo {
+  display: flex;
   align-items: center;
+  gap: 10px;
+}
+.agregarText {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+.agregarLine {
+  font-size: 0.85rem;
+  margin: 0;
+  color: #444;
+}
+.agregarLineBold {
+  font-size: 0.95rem;
+  margin: 0;
+  font-weight: 700;
+  color: #111;
+}
+
+/* Item de producto */
+.productoItem {
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #e9edf2;
+  cursor: pointer;
+  background-color: #fff;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  border-radius: 8px;
+  transition: transform .12s ease, box-shadow .12s ease;
+  box-sizing: border-box;
+}
+
+/* hover / focus */
+.productoItem:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(16,24,40,0.06);
+}
+
+/* Imagen */
+.imagen {
+  height: 80px;
+  width: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+  background: #f0f0f0;
+}
+
+/* Info (nombre + precio) */
+.info {
+  flex: 1;
+  min-width: 0; /* permite que el texto se encoja y se trunque */
+  display: flex;
+  flex-direction: column;
   gap: 6px;
 }
 
-.productoItem {
-  padding: 10px; 
-  margin: 10px 0; 
-  border: 1px solid gray; 
-  cursor: pointer; 
-  background-color: white; 
-  display: flex; 
-  justify-content: space-between;
+.nombre {
+  font-size: 1rem;
+  margin: 0;
+  color: #111;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* corta el nombre si es muy largo */
+}
+
+.precio {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* Controls (botones) */
+.controls {
+  display: flex;
+  gap: 8px;
   align-items: center;
 }
-.productoItem h3,
-.productoItem p {
-  color: black;
+
+/* Botón eliminar: estilo compacto */
+.btnEliminar {
+  background: var(--danger);
+  color: #fff;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  white-space: nowrap;
 }
-.form-row { display: flex; gap: 12px; }
+
+/* versión "mini" para celulares (se aplica en media query) */
+.btnEliminar.small {
+  padding: 5px 8px;
+  font-size: 0.78rem;
+  border-radius: 6px;
+}
+
+/* texto de carga */
+.loading {
+  padding: 20px;
+  text-align: center;
+  color: var(--muted);
+}
+
+/* ------------------------
+   Formulario (estilos nuevos)
+   ------------------------ */
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+label {
+  font-size: 0.85rem;
+  color: #374151;
+  font-weight: 600;
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
+  padding: 10px 12px;
+  border: 1px solid #e6eef2;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+  box-sizing: border-box;
+}
+
+/* placeholder más visible pero sutil */
+input::placeholder,
+textarea::placeholder {
+  color: #9aa4ad;
+  opacity: 1;
+  font-size: 0.92rem;
+}
+
+/* botón submit del formulario */
+.formActions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 6px;
+}
+
+.btnPrimary {
+  background: var(--accent);
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* botón secundario (ej: cancelar) */
+.btnSecondary {
+  background: transparent;
+  color: #374151;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #e6eef2;
+  cursor: pointer;
+}
+
+/* ------------------------
+   Responsive: pantallas pequeñas
+   ------------------------ */
 @media (max-width: 720px) {
   .container {
     flex-direction: column;
+    padding: 6px;
+    gap: 12px;
   }
 
   .panel {
-    width: 100%;
+    padding: 12px;
+  }
+
+  .imagen {
+    height: 70px;
+    width: 70px;
+  }
+
+  .nombre {
+    font-size: 0.95rem;
+  }
+
+  .precio {
+    font-size: 0.9rem;
+  }
+
+  .btnEliminar {
+    padding: 5px 8px;
+    font-size: 0.78rem;
+    border-radius: 6px;
+  }
+
+  .productoItem {
+    gap: 10px;
+  }
+
+  /* Formulario se vuelve más amplio y centrado */
+  .formContainer {
+    margin: 0;
+  }
+
+  .formActions {
+    justify-content: center;
   }
 }
