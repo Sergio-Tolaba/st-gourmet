@@ -10,7 +10,7 @@ const Header = () => {
   const mostrarLinkIngresar = !usuario && location.pathname !== '/login';
 
   return (
-    <header className="header">
+    <header className="carrito-header">
       <div
         className="rutaAdmin">
         <NavBar />
