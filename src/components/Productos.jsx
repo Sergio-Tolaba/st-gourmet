@@ -37,28 +37,26 @@ const Productos = () => {
   
   return (
     <div className="productos-container">
-      <div className="grid-productos">
-        {productos.map((producto) => (
-          <div key={producto.id} className="producto-card">
-             <img src={producto.imagen} height={80} width={80}/>
-            <h3 className="nombre">{producto.nombre}</h3>
-            <p className="precio">${producto.precio}</p>
-
-            <div className="botones">
-              <Link to={`/productos/${producto.id}`}>
-                <button className="btn-detalle">Ver detalle</button>
-              </Link>
-
-              <button
-                className="btn-agregar"
-                onClick={() => agregarProducto(producto)}
-              >
-                🛒Agregar
-              </button>
-            </div>
-          </div>
-        ))}
+      <div className="row">
+  {productos.map((producto) => (
+    <div key={producto.id} className="col-lg-3 col-md-6 col-12 mb-4">
+      <div className="producto-card">
+        <img src={producto.imagen} height={80} width={80} />
+        <h3 className="nombre">{producto.nombre}</h3>
+        <p className="precio">${producto.precio}</p>
+        <div className="botones">
+          <Link to={`/productos/${producto.id}`}>
+            <button className="btn-detalle">Ver detalle</button>
+          </Link>
+          <button className="btn-agregar" onClick={() => agregarProducto(producto)}>
+            🛒Agregar
+          </button>
+        </div>
       </div>
+    </div>
+  ))}
+</div>
+
     </div>
   );
 };

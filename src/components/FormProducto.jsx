@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styles from './GestionProducto.module.css';
-
-const FormProducto = ({ onAgregar }) => {
+import { forwardRef } from 'react';
+const FormProducto = forwardRef(({ onAgregar }, ref) => {
   const [nombre, setNombre] = useState('');
   const [precio, setPrecio] = useState('');
   const [imagen, setImagen] = useState('');
@@ -21,7 +21,8 @@ const FormProducto = ({ onAgregar }) => {
     const producto = {
       nombre: nombre.trim(),
       precio: Number(precio) || 0,
-      imagen: imagen.trim() || 'https://via.placeholder.com/100?text=Sin+imagen',
+      imagen:
+        imagen.trim() || 'https://via.placeholder.com/100?text=Sin+imagen',
       descripcion: descripcion.trim(),
     };
     onAgregar(producto);
@@ -29,12 +30,18 @@ const FormProducto = ({ onAgregar }) => {
   };
 
   return (
-    <form className={styles.formContainer} onSubmit={submit} aria-label="Formulario para agregar producto">
+    <form
+      className={styles.formContainer}
+      onSubmit={submit}
+      aria-label="Formulario para agregar producto"
+    >
+      <h2>Agregar Producto</h2>
       <div className={styles.fieldGroup}>
         <label htmlFor="nombre">Nombre</label>
         <input
           id="nombre"
           type="text"
+          ref={ref}
           value={nombre}
           onChange={(e) => setNombre(e.target.value)}
           placeholder="Ej: Alfajor casero - Chocolate 90g"
@@ -75,11 +82,14 @@ const FormProducto = ({ onAgregar }) => {
       </div>
 
       <div className={styles.formActions}>
-        <button type="button" className={styles.btnSecondary} onClick={limpiar}>Limpiar</button>
-        <button type="submit" className={styles.btnPrimary}>Agregar producto</button>
+        <button type="button" className={styles.btnSecondary} onClick={limpiar}>
+          Limpiar
+        </button>
+        <button type="submit" className={styles.btnPrimary}>
+          Agregar producto
+        </button>
       </div>
     </form>
   );
-};
-
+});
 export default FormProducto;

@@ -1,8 +1,8 @@
-.grid-productos {
-  display: grid;
-  gap: 15px;
-  grid-template-columns: repeat(3, 1fr);   /* ✔ 3 columnas en desktop */
-}
+// .grid-productos {
+//   display: grid;
+//   gap: 15px;
+//   grid-template-columns: repeat(3, 1fr);   /* ✔ 3 columnas en desktop */
+// }
 
 
 .producto-card {

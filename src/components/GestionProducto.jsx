@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import FormProducto from './FormProducto';
 import EditarProducto from './EditarProducto';
 import styles from './GestionProducto.module.css';
@@ -9,6 +9,10 @@ const GestionProductos = () => {
   const [productoSeleccionado, setProductoSeleccionado] = useState(null);
   const [cargando, setCargando] = useState(true);
   const API = 'https://68dd7da4d7b591b4b78c9f2f.mockapi.io/productos';
+  const formRef = useRef(null);
+  const nombreInputRef = useRef(null);
+  const editarRef = useRef(null);
+  const editarNombreRef = useRef(null);
 
   useEffect(() => {
     cargarProductos();
@@ -30,6 +34,12 @@ const GestionProductos = () => {
 
   const seleccionarProducto = (producto) => {
     setProductoSeleccionado(producto);
+
+    // esperar a que se renderice EditarProducto
+    setTimeout(() => {
+      editarRef.current?.scrollIntoView({ behavior: 'smooth' });
+      editarNombreRef.current?.focus();
+    }, 300);
   };
 
   // Formatea moneda local (ajustá locale/currency si lo necesitás)
@@ -73,89 +83,127 @@ const GestionProductos = () => {
     }
   };
 
-  if (cargando) return <div className={styles.loading}>Cargando productos...</div>;
+  if (cargando)
+    return <div className={styles.loading}>Cargando productos...</div>;
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.container}>
-        {/* Panel izquierdo: Lista de productos */}
-        <div className={styles.panel}>
-          <div className={styles.botonAgregarProducto}>
-            <div className={styles.agregarInfo}>
-              <CirclePlus />
-              <div className={styles.agregarText}>
-                <p className={styles.agregarLine}>Para editar haz clic en el producto</p>
-                <p className={styles.agregarLineBold}>Nuevo Producto</p>
+      {/* Container que centra y da márgenes responsivos */}
+      <div className={`container-fluid container-md ${styles.container}`}>
+        {/* Row principal: dos paneles (izq: lista, der: formulario/editor) */}
+        <div className="row g-4">
+          {/* Panel izquierdo: Lista de productos (ocupa más espacio en desktop) */}
+          <div className="col-12 col-md-8">
+            <div className={styles.panel}>
+              <div
+                className={styles.botonAgregarProducto}
+                onClick={() => {
+                  formRef.current?.scrollIntoView({ behavior: 'smooth' });
+                  setTimeout(() => {
+                    nombreInputRef.current?.focus();
+                  }, 400);
+                }}
+              >
+                <div className={styles.agregarInfo}>
+                  <CirclePlus />
+                  <div className={styles.agregarText}>
+                    <p className={styles.agregarLine}>
+                      Para editar haz clic en el producto
+                    </p>
+                    <p className={styles.agregarLineBold}>Nuevo Producto</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Grid responsive de productos: 4/2/1 */}
+              <div className="row justify-content-center g-4">
+                {productos.map((producto) => {
+                  const nombre =
+                    producto.nombre || producto.name || 'Sin nombre';
+                  const precioRaw = producto.precio ?? producto.price ?? '-';
+                  return (
+                    <div key={producto.id} className="col-12 col-md-7 col-lg-8">
+                      <div
+                        onClick={() => seleccionarProducto(producto)}
+                        className={styles.productoItem}
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') seleccionarProducto(producto);
+                        }}
+                      >
+                        <img
+                          className={styles.imagen}
+                          src={producto.imagen}
+                          alt={nombre}
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src =
+                              'https://via.placeholder.com/100?text=Sin+imagen';
+                          }}
+                        />
+
+                        {/* info: nombre + precio */}
+                        <div className={styles.info}>
+                          <h3 className={styles.nombre} title={nombre}>
+                            {nombre}
+                          </h3>
+                          <p className={styles.precio}>
+                            {precioRaw === '-'
+                              ? '-'
+                              : formatCurrency(precioRaw)}
+                          </p>
+                        </div>
+
+                        {/* Botones */}
+                        <div className={styles.controls}>
+                          <button
+                            className={`btn btn-sm ${styles.btnEliminar}`}
+                            aria-label={`Eliminar ${nombre}`}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              eliminarProducto(producto.id);
+                            }}
+                          >
+                            Eliminar
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
 
-          {productos.map((producto) => {
-            const nombre = producto.nombre || producto.name || 'Sin nombre';
-            const precioRaw = producto.precio ?? producto.price ?? '-';
-            return (
-              <div
-                key={producto.id}
-                onClick={() => seleccionarProducto(producto)}
-                className={styles.productoItem}
-              >
-                <img
-                  className={styles.imagen}
-                  src={producto.imagen}
-                  alt={nombre}
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src =
-                      'https://via.placeholder.com/100?text=Sin+imagen';
-                  }}
+          {/* Panel derecho: Formulario + Editor (ocupa menos espacio en desktop) */}
+          <div className="col-12 col-md-5 col-lg-4">
+            <div className={styles.panel}>
+              <div ref={formRef}>
+                <FormProducto
+                  onAgregar={agregarProducto}
+                  ref={nombreInputRef} // <-- pasa ref al input nombre
                 />
-
-                {/* info: nombre + precio */}
-                <div className={styles.info}>
-                  <h3 className={styles.nombre} title={nombre}>
-                    {nombre}
-                  </h3>
-                  <p className={styles.precio}>
-                    {precioRaw === '-' ? '-' : formatCurrency(precioRaw)}
-                  </p>
-                </div>
-
-                {/* Botones */}
-                <div className={styles.controls}>
-                  <button
-                    className={styles.btnEliminar}
-                    aria-label={`Eliminar ${nombre}`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      eliminarProducto(producto.id);
-                    }}
-                  >
-                    Eliminar
-                  </button>
-                </div>
               </div>
-            );
-          })}
-        </div>
 
-        {/* Panel derecho: Formulario + Editor */}
-        <div className={styles.panel}>
-          <FormProducto onAgregar={agregarProducto} />
-          <EditarProducto
-            productoSeleccionado={productoSeleccionado}
-            onActualizar={(productoActualizado) => {
-              setProductos((prev) =>
-                prev.map((p) =>
-                  p.id === productoActualizado.id ? productoActualizado : p
-                )
-              );
-              setProductoSeleccionado(null);
-            }}
-          />
+              <EditarProducto
+                ref={editarRef}
+                nombreRef={editarNombreRef}
+                productoSeleccionado={productoSeleccionado}
+                onActualizar={(productoActualizado) => {
+                  setProductos((prev) =>
+                    prev.map((p) =>
+                      p.id === productoActualizado.id ? productoActualizado : p
+                    )
+                  );
+                  setProductoSeleccionado(null);
+                }}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
 };
-
 export default GestionProductos;
