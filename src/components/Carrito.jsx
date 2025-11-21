@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
-import { useAuthContext } from '../context/AuthContext';
+import { useAuthContext } from '../contexts/AuthContext';
 import { useContext } from 'react';
 import './Carrito.css';
-import { CarritoContext } from '../context/CarritoContext';
+import { CarritoContext } from '../contexts/CarritoContext';
 
 // Formatea números a moneda ARS (sin decimales)
 const formatCurrency = (n) => {
@@ -32,7 +32,8 @@ const Carrito = () => {
       <div className="carrito-header">
         <div>
           <h2>🛒 Tu Carrito</h2>
-          <p>Usuario: <strong>{usuario}</strong></p>
+          <p>Usuario: <strong>{usuario?.username}</strong></p>
+
         </div>
 
         <div className="acciones">

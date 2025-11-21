@@ -6,23 +6,28 @@ export function CarritoProvider({ children }) {
   const [carrito, setCarrito] = useState([]);
 
   const agregarProducto = (producto) => {
-    setCarrito((prev) => {
-      const existente = prev.find(item => item.nombre === producto.nombre);
-      if (existente) {
-        return prev.map(item =>
-          item.nombre === producto.nombre
-            ? { ...item, cantidad: (item.cantidad || 1) + 1 }
-            : item
-        );
-      } else {
-        return [...prev, { ...producto, cantidad: 1 }];
-      }
-    });
-  };
+  setCarrito((prev) => {
+    const existente = prev.find(item => item.nombre === producto.nombre);
 
-  const eliminarProducto = (index) => {
-    setCarrito((prev) => prev.filter((_, i) => i !== index));
-  };
+    if (existente) {
+      return prev.map(item =>
+        item.nombre === producto.nombre
+          ? { ...item, cantidad: (item.cantidad || 1) + 1 }
+          : item
+      );
+    }
+
+    // 🔥 Si el producto NO tiene id, generar uno único
+    const id = producto.id ?? crypto.randomUUID();
+
+    return [...prev, { ...producto, id, cantidad: 1 }];
+  });
+};
+
+ const eliminarProducto = (id) => {
+  setCarrito((prev) => prev.filter((item) => item.id !== id));
+};
+
 
   const vaciarCarrito = () => {
     setCarrito([]);

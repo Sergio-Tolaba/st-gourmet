@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import './NavBar.css';
-import { useAuthContext } from '../context/AuthContext';
+import { useAuthContext } from '../contexts/AuthContext';
 
 const NavBar = ({ cartCount = 0 }) => {
   const { usuario } = useAuthContext();
@@ -47,5 +47,6 @@ const NavBar = ({ cartCount = 0 }) => {
       </div>
     </header>
   );
-  }
+};
+
 export default NavBar;

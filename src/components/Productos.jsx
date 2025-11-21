@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Productos.css';
-import { CarritoContext } from '../context/CarritoContext';
+import { CarritoContext } from '../contexts/CarritoContext';
 
 const Productos = () => {
   const [productos, setProductos] = useState([]);

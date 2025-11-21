@@ -1,14 +1,20 @@
-import { Navigate } from "react-router-dom"
-import { useAuthContext } from "../context/AuthContext"
-//sin uso de AuthContext
-//const RutaProtegida = ({logueado, children}) => {
-const RutaProtegida = ({children}) => {
-   //if(!logueado){
-  const{usuario} = useAuthContext()
-  if(!usuario){
-    return <Navigate to='/login' replace/>
-  }
-  return children
-}
+import { Navigate, useLocation } from "react-router-dom"
+import { useAuthContext } from "../contexts/AuthContext"
 
-export default RutaProtegida
+const RutaProtegida = ({ children, onlyAdmin=false }) => {
+  const { usuario } = useAuthContext();
+  const location = useLocation();
+
+  if (!usuario) {
+    return <Navigate to="/login" replace state={{ from: location }} />;
+    
+  }
+
+  if (onlyAdmin && usuario.role !== "admin") {
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
+};
+
+export default RutaProtegida;

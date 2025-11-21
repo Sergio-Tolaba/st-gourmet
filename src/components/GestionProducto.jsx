@@ -3,6 +3,7 @@ import FormProducto from './FormProducto';
 import EditarProducto from './EditarProducto';
 import styles from './GestionProducto.module.css';
 import CirclePlus from '../assets/CirclePlus';
+import { useAuthContext } from '../contexts/AuthContext';
 
 const GestionProductos = () => {
   const [productos, setProductos] = useState([]);
@@ -85,6 +86,22 @@ const GestionProductos = () => {
 
   if (cargando)
     return <div className={styles.loading}>Cargando productos...</div>;
+
+  const { usuario } = useAuthContext();
+  if (!usuario) {
+    return (
+      <div style={{ padding: 20 }}>
+        Debes iniciar sesión para ver esta sección.
+      </div>
+    );
+  }
+  if (usuario.role !== 'admin') {
+    return (
+      <div style={{ padding: 20 }}>
+        No autorizado. Sólo administradores pueden acceder.
+      </div>
+    );
+  }
 
   return (
     <div className={styles.wrapper}>
